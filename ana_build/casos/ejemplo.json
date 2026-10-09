@@ -1,0 +1,11 @@
+{
+  "mercancia": {"es_peligrosa": true, "peso_kg": 1200},
+  "transporte": {
+    "hazmat": false,
+    "capacidad_max_kg": 5000,
+    "autonomia_km": 800,
+    "peso_vacio_ton": 5.0,
+    "poliza_vigente": true
+  },
+  "ruta": {"distancia_km": 400, "peso_max_permitido_ton": 20.0}
+}

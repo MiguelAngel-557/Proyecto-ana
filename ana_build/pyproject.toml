@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ana-core"
+version = "2.0.0"
+description = "Núcleo axiomático de decisiones explicables para logística (MERA)"
+requires-python = ">=3.10"
+dependencies = [
+    "pyyaml>=6.0",
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "pydantic>=2.8",
+    "duckdb>=0.10",
+]
+
+[project.optional-dependencies]
+postgres = ["psycopg2-binary>=2.9"]
+neo4j = ["neo4j>=5.20"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+ana = "ana.cli:main"
+
+[tool.setuptools]
+packages = ["ana"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

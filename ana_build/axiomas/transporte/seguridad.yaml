@@ -1,0 +1,25 @@
+# Los axiomas ya no declaran `dominio` ni `variables_requeridas`:
+# el dominio lo da la carpeta y las variables se deducen de la expresión.
+defaults:
+  fuente: "Política MERA — Seguridad de carga"
+  version: "1.0"
+  etiquetas: [seguridad, hazmat]
+
+axiomas:
+  - axioma_id: AX-HAZ-001
+    descripcion: >-
+      Rechazar si la mercancía es peligrosa y el vehículo carece de
+      certificación HAZMAT.
+    condicion_expr: "mercancia['es_peligrosa'] and not transporte['hazmat']"
+    prioridad: 100
+    estado: RECHAZADO
+    motivo: "Transporte sin certificación HAZMAT para carga peligrosa."
+
+  - axioma_id: AX-HAZ-002
+    descripcion: >-
+      Carga peligrosa con vehículo certificado pero sin póliza vigente:
+      requiere revisión humana antes de despachar.
+    condicion_expr: "mercancia['es_peligrosa'] and transporte['hazmat'] and not transporte['poliza_vigente']"
+    prioridad: 95
+    estado: REVISION_HUMANA
+    motivo: "Carga peligrosa sin póliza de responsabilidad civil vigente."

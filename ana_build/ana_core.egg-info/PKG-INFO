@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: ana-core
+Version: 2.0.0
+Summary: Núcleo axiomático de decisiones explicables para logística (MERA)
+Requires-Python: >=3.10
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: fastapi>=0.115
+Requires-Dist: uvicorn>=0.30
+Requires-Dist: pydantic>=2.8
+Requires-Dist: duckdb>=0.10
+Provides-Extra: postgres
+Requires-Dist: psycopg2-binary>=2.9; extra == "postgres"
+Provides-Extra: neo4j
+Requires-Dist: neo4j>=5.20; extra == "neo4j"
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"

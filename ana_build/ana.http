@@ -1,0 +1,63 @@
+### Extensión REST Client (humao.rest-client).
+### Haz clic en "Send Request" sobre cada bloque. No necesitas Postman.
+
+@host = http://localhost:8000
+
+### Estado del sistema y versión de la base de conocimiento
+GET {{host}}/salud
+
+### Evaluar: carga peligrosa sin certificación HAZMAT -> RECHAZADO
+POST {{host}}/evaluar
+Content-Type: application/json
+
+{
+  "dominio": "transporte",
+  "datos": {
+    "mercancia": { "es_peligrosa": true, "peso_kg": 1200 },
+    "transporte": {
+      "hazmat": false, "capacidad_max_kg": 5000, "autonomia_km": 800,
+      "peso_vacio_ton": 5.0, "poliza_vigente": true
+    },
+    "ruta": { "distancia_km": 400, "peso_max_permitido_ton": 20.0 }
+  }
+}
+
+### Evaluar: margen de autonomía al límite -> REVISION_HUMANA
+POST {{host}}/evaluar
+Content-Type: application/json
+
+{
+  "dominio": "transporte",
+  "datos": {
+    "mercancia": { "es_peligrosa": false, "peso_kg": 1500 },
+    "transporte": {
+      "hazmat": false, "capacidad_max_kg": 3000, "autonomia_km": 800,
+      "peso_vacio_ton": 5.0, "poliza_vigente": true
+    },
+    "ruta": { "distancia_km": 760, "peso_max_permitido_ton": 20.0 }
+  }
+}
+
+### Evaluar: datos incompletos -> ANA se abstiene
+POST {{host}}/evaluar
+Content-Type: application/json
+
+{
+  "dominio": "transporte",
+  "datos": { "mercancia": { "es_peligrosa": false } }
+}
+
+### Recargar axiomas desde disco sin reiniciar el servidor
+POST {{host}}/axiomas/sincronizar
+
+### Informe de validación en vivo
+GET {{host}}/axiomas/validar?profundo=true
+
+### Contradicciones detectadas
+GET {{host}}/axiomas/conflictos
+
+### Axiomas activos del dominio transporte
+GET {{host}}/axiomas?dominio=transporte
+
+### Últimas decisiones auditadas
+GET {{host}}/auditoria?limite=10

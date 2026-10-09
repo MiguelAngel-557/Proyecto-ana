@@ -1,0 +1,1804 @@
+{
+  "version": "77231cb52fc9fff6",
+  "generado_en": "2026-10-06T19:55:12.219834+00:00",
+  "axiomas": [
+    {
+      "axioma_id": "AX-OK-001",
+      "dominio": "transporte",
+      "condicion_expr": "not (mercancia['es_peligrosa'] and not transporte['hazmat']) and mercancia['peso_kg'] <= transporte['capacidad_max_kg'] and ruta['distancia_km'] <= transporte['autonomia_km'] and (transporte['peso_vacio_ton'] + mercancia['peso_kg'] / 1000.0) <= ruta['peso_max_permitido_ton']",
+      "consecuencia": {
+        "estado": "APROBADO",
+        "motivo": "Envío validado bajo todos los axiomas de transporte vigentes."
+      },
+      "descripcion": "Aprobar el envío cuando se cumplen todas las restricciones.",
+      "prioridad": 10,
+      "variables_requeridas": [
+        "mercancia.es_peligrosa",
+        "mercancia.peso_kg",
+        "ruta.distancia_km",
+        "ruta.peso_max_permitido_ton",
+        "transporte.autonomia_km",
+        "transporte.capacidad_max_kg",
+        "transporte.hazmat",
+        "transporte.peso_vacio_ton"
+      ],
+      "fuente": "Política MERA — Despacho",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "aprobacion"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\aprobacion.yaml",
+      "hash": "864740c908ede580",
+      "actualizado_en": "2026-10-06T19:55:12.190160+00:00"
+    },
+    {
+      "axioma_id": "AX-PES-001",
+      "dominio": "transporte",
+      "condicion_expr": "mercancia['peso_kg'] > transporte['capacidad_max_kg']",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "Exceso de peso sobre la capacidad del vehículo."
+      },
+      "descripcion": "Rechazar si el peso de la carga excede la capacidad del vehículo.",
+      "prioridad": 90,
+      "variables_requeridas": [
+        "mercancia.peso_kg",
+        "transporte.capacidad_max_kg"
+      ],
+      "fuente": "Norma NOM-012-SCT-2-2017 / capacidades de flota",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "capacidad",
+        "infraestructura"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\capacidad.yaml",
+      "hash": "a73ef6b7e55e24d4",
+      "actualizado_en": "2026-10-06T19:55:12.190192+00:00"
+    },
+    {
+      "axioma_id": "AX-INF-001",
+      "dominio": "transporte",
+      "condicion_expr": "(transporte['peso_vacio_ton'] + mercancia['peso_kg'] / 1000.0) > ruta['peso_max_permitido_ton']",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "El peso bruto combinado excede el límite de la ruta."
+      },
+      "descripcion": "Rechazar si el peso bruto excede el límite de la infraestructura.",
+      "prioridad": 85,
+      "variables_requeridas": [
+        "mercancia.peso_kg",
+        "ruta.peso_max_permitido_ton",
+        "transporte.peso_vacio_ton"
+      ],
+      "fuente": "Norma NOM-012-SCT-2-2017 / capacidades de flota",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "capacidad",
+        "infraestructura"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\capacidad.yaml",
+      "hash": "35f26341176945b7",
+      "actualizado_en": "2026-10-06T19:55:12.190225+00:00"
+    },
+    {
+      "axioma_id": "AX-AUT-001",
+      "dominio": "transporte",
+      "condicion_expr": "ruta['distancia_km'] > transporte['autonomia_km']",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "La distancia de la ruta excede la autonomía del vehículo."
+      },
+      "descripcion": "Rechazar si la distancia supera la autonomía sin recarga.",
+      "prioridad": 80,
+      "variables_requeridas": [
+        "ruta.distancia_km",
+        "transporte.autonomia_km"
+      ],
+      "fuente": "Norma NOM-012-SCT-2-2017 / capacidades de flota",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "capacidad",
+        "infraestructura"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\capacidad.yaml",
+      "hash": "42a6a7500c84acc6",
+      "actualizado_en": "2026-10-06T19:55:12.190256+00:00"
+    },
+    {
+      "axioma_id": "AX-AUT-002",
+      "dominio": "transporte",
+      "condicion_expr": "ruta['distancia_km'] <= transporte['autonomia_km'] and ruta['distancia_km'] > transporte['autonomia_km'] * 0.9",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Margen de autonomía insuficiente para imprevistos."
+      },
+      "descripcion": "Margen de autonomía por debajo del 10%: revisión humana.",
+      "prioridad": 40,
+      "variables_requeridas": [
+        "ruta.distancia_km",
+        "transporte.autonomia_km"
+      ],
+      "fuente": "Norma NOM-012-SCT-2-2017 / capacidades de flota",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "capacidad",
+        "infraestructura"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\capacidad.yaml",
+      "hash": "6c776f075599234d",
+      "actualizado_en": "2026-10-06T19:55:12.190287+00:00"
+    },
+    {
+      "axioma_id": "AX-HAZ-001",
+      "dominio": "transporte",
+      "condicion_expr": "mercancia['es_peligrosa'] and not transporte['hazmat']",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "Transporte sin certificación HAZMAT para carga peligrosa."
+      },
+      "descripcion": "Rechazar si la mercancía es peligrosa y el vehículo carece de certificación HAZMAT.",
+      "prioridad": 100,
+      "variables_requeridas": [
+        "mercancia.es_peligrosa",
+        "transporte.hazmat"
+      ],
+      "fuente": "Política MERA — Seguridad de carga",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "seguridad",
+        "hazmat"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\seguridad.yaml",
+      "hash": "e1a94a35cc4779e3",
+      "actualizado_en": "2026-10-06T19:55:12.190566+00:00"
+    },
+    {
+      "axioma_id": "AX-HAZ-002",
+      "dominio": "transporte",
+      "condicion_expr": "mercancia['es_peligrosa'] and transporte['hazmat'] and not transporte['poliza_vigente']",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Carga peligrosa sin póliza de responsabilidad civil vigente."
+      },
+      "descripcion": "Carga peligrosa con vehículo certificado pero sin póliza vigente: requiere revisión humana antes de despachar.",
+      "prioridad": 95,
+      "variables_requeridas": [
+        "mercancia.es_peligrosa",
+        "transporte.hazmat",
+        "transporte.poliza_vigente"
+      ],
+      "fuente": "Política MERA — Seguridad de carga",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "seguridad",
+        "hazmat"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\seguridad.yaml",
+      "hash": "ff8cee69e4bf99d4",
+      "actualizado_en": "2026-10-06T19:55:12.190611+00:00"
+    },
+    {
+      "axioma_id": "AX-ARA-001",
+      "dominio": "aduanas",
+      "condicion_expr": "ruta['origen_pais'] in ['Argentina', 'Brasil', 'Paraguay', 'Uruguay', 'Bolivia', 'Colombia', 'Ecuador', 'Perú', 'Venezuela', 'Chile', 'Mexico']",
+      "consecuencia": {
+        "estado": "APROBADO",
+        "motivo": "Arancel preferencial ALADI aplicado."
+      },
+      "descripcion": "Aplicar arancel preferencial a países ALADI.",
+      "prioridad": 85,
+      "variables_requeridas": [
+        "ruta.origen_pais"
+      ],
+      "fuente": "Política MERA — Cálculo de aranceles",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "aranceles",
+        "impuestos",
+        "comercio"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "aduanas\\aranceles.yaml",
+      "hash": "ecc7d0224918595b",
+      "actualizado_en": "2026-10-06T19:55:12.189335+00:00"
+    },
+    {
+      "axioma_id": "AX-ARA-002",
+      "dominio": "aduanas",
+      "condicion_expr": "aduanas['valor_declarado'] == 0 or aduanas['codigo_armonizado'] == ''",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "Información incompleta para cálculo arancelario."
+      },
+      "descripcion": "Rechazar si faltan datos para calcular arancel.",
+      "prioridad": 88,
+      "variables_requeridas": [
+        "aduanas.codigo_armonizado",
+        "aduanas.valor_declarado"
+      ],
+      "fuente": "Política MERA — Cálculo de aranceles",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "aranceles",
+        "impuestos",
+        "comercio"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "aduanas\\aranceles.yaml",
+      "hash": "9727ae59be39607f",
+      "actualizado_en": "2026-10-06T19:55:12.189393+00:00"
+    },
+    {
+      "axioma_id": "AX-ARA-003",
+      "dominio": "aduanas",
+      "condicion_expr": "aduanas['valor_declarado'] < aduanas['valor_referencia_minima'] * 0.8",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Valor declarado sospechosamente bajo."
+      },
+      "descripcion": "Revisar si hay valor inconsistente (posible subdeclaración).",
+      "prioridad": 70,
+      "variables_requeridas": [
+        "aduanas.valor_declarado",
+        "aduanas.valor_referencia_minima"
+      ],
+      "fuente": "Política MERA — Cálculo de aranceles",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "aranceles",
+        "impuestos",
+        "comercio"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "aduanas\\aranceles.yaml",
+      "hash": "7014829c8090cfbe",
+      "actualizado_en": "2026-10-06T19:55:12.189434+00:00"
+    },
+    {
+      "axioma_id": "AX-ARA-004",
+      "dominio": "aduanas",
+      "condicion_expr": "aduanas['valor_declarado'] > 0 and aduanas['codigo_armonizado'] != '' and aduanas['valor_declarado'] >= aduanas['valor_referencia_minima'] * 0.8",
+      "consecuencia": {
+        "estado": "APROBADO",
+        "motivo": "Cálculo arancelario completado."
+      },
+      "descripcion": "Aprobar cálculo de arancel.",
+      "prioridad": 18,
+      "variables_requeridas": [
+        "aduanas.codigo_armonizado",
+        "aduanas.valor_declarado",
+        "aduanas.valor_referencia_minima"
+      ],
+      "fuente": "Política MERA — Cálculo de aranceles",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "aranceles",
+        "impuestos",
+        "comercio"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "aduanas\\aranceles.yaml",
+      "hash": "08e9e1dca9d7e11e",
+      "actualizado_en": "2026-10-06T19:55:12.189468+00:00"
+    },
+    {
+      "axioma_id": "AX-ADU-001",
+      "dominio": "aduanas",
+      "condicion_expr": "mercancia['codigo_armonizado'] in ['2933', '2934', '2935'] or mercancia['tipo'] in ['explosivos', 'armas', 'drogas', 'sustancias_controladas']",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "Producto prohibido por regulación aduanal."
+      },
+      "descripcion": "Rechazar productos prohibidos por ley.",
+      "prioridad": 100,
+      "variables_requeridas": [
+        "mercancia.codigo_armonizado",
+        "mercancia.tipo"
+      ],
+      "fuente": "Política MERA — Regulaciones aduanales",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "aduanas",
+        "regulacion",
+        "prohibicion"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "aduanas\\regulaciones.yaml",
+      "hash": "dac55ddf9024a204",
+      "actualizado_en": "2026-10-06T19:55:12.189501+00:00"
+    },
+    {
+      "axioma_id": "AX-ADU-002",
+      "dominio": "aduanas",
+      "condicion_expr": "not cliente['registro_aduanal_activo']",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "Importador no tiene registro aduanal activo."
+      },
+      "descripcion": "Rechazar si el importador no está registrado.",
+      "prioridad": 95,
+      "variables_requeridas": [
+        "cliente.registro_aduanal_activo"
+      ],
+      "fuente": "Política MERA — Regulaciones aduanales",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "aduanas",
+        "regulacion",
+        "prohibicion"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "aduanas\\regulaciones.yaml",
+      "hash": "2f23bff75f99679f",
+      "actualizado_en": "2026-10-06T19:55:12.189532+00:00"
+    },
+    {
+      "axioma_id": "AX-ADU-003",
+      "dominio": "aduanas",
+      "condicion_expr": "aduanas['arancel_porcentaje'] > 40",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Arancel elevado requiere revisión adicional."
+      },
+      "descripcion": "Revisar si el arancel excede 40%.",
+      "prioridad": 60,
+      "variables_requeridas": [
+        "aduanas.arancel_porcentaje"
+      ],
+      "fuente": "Política MERA — Regulaciones aduanales",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "aduanas",
+        "regulacion",
+        "prohibicion"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "aduanas\\regulaciones.yaml",
+      "hash": "15a91e2e569711ab",
+      "actualizado_en": "2026-10-06T19:55:12.189564+00:00"
+    },
+    {
+      "axioma_id": "AX-ADU-004",
+      "dominio": "aduanas",
+      "condicion_expr": "cliente['sanciones_aduanales'] > 0",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Cliente tiene antecedentes de incumplimiento aduanal."
+      },
+      "descripcion": "Revisar si hay antecedentes de incumplimiento.",
+      "prioridad": 65,
+      "variables_requeridas": [
+        "cliente.sanciones_aduanales"
+      ],
+      "fuente": "Política MERA — Regulaciones aduanales",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "aduanas",
+        "regulacion",
+        "prohibicion"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "aduanas\\regulaciones.yaml",
+      "hash": "3d9145733db46e87",
+      "actualizado_en": "2026-10-06T19:55:12.189595+00:00"
+    },
+    {
+      "axioma_id": "AX-ADU-005",
+      "dominio": "aduanas",
+      "condicion_expr": "cliente['registro_aduanal_activo'] and mercancia['codigo_armonizado'] not in ['2933', '2934', '2935'] and mercancia['tipo'] not in ['explosivos', 'armas', 'drogas', 'sustancias_controladas'] and aduanas['arancel_porcentaje'] <= 40 and cliente['sanciones_aduanales'] == 0",
+      "consecuencia": {
+        "estado": "APROBADO",
+        "motivo": "Importación autorizada."
+      },
+      "descripcion": "Aprobar importación regulada.",
+      "prioridad": 20,
+      "variables_requeridas": [
+        "aduanas.arancel_porcentaje",
+        "cliente.registro_aduanal_activo",
+        "cliente.sanciones_aduanales",
+        "mercancia.codigo_armonizado",
+        "mercancia.tipo"
+      ],
+      "fuente": "Política MERA — Regulaciones aduanales",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "aduanas",
+        "regulacion",
+        "prohibicion"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "aduanas\\regulaciones.yaml",
+      "hash": "8af1458de6f1b2be",
+      "actualizado_en": "2026-10-06T19:55:12.189627+00:00"
+    },
+    {
+      "axioma_id": "AX-DOC-001",
+      "dominio": "documentacion",
+      "condicion_expr": "not documentos['factura_comercial']",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "Falta factura comercial."
+      },
+      "descripcion": "Rechazar si falta factura comercial.",
+      "prioridad": 90,
+      "variables_requeridas": [
+        "documentos.factura_comercial"
+      ],
+      "fuente": "Política MERA — Requisitos documentales",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "documentacion",
+        "requisitos",
+        "tramites"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "documentacion\\requisitos.yaml",
+      "hash": "2e6d37d17d1ac370",
+      "actualizado_en": "2026-10-06T19:55:12.189659+00:00"
+    },
+    {
+      "axioma_id": "AX-DOC-002",
+      "dominio": "documentacion",
+      "condicion_expr": "not documentos['conocimiento_embarque']",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "Falta conocimiento de embarque."
+      },
+      "descripcion": "Rechazar si falta conocimiento de embarque.",
+      "prioridad": 87,
+      "variables_requeridas": [
+        "documentos.conocimiento_embarque"
+      ],
+      "fuente": "Política MERA — Requisitos documentales",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "documentacion",
+        "requisitos",
+        "tramites"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "documentacion\\requisitos.yaml",
+      "hash": "cd8b074c7e1aaf5b",
+      "actualizado_en": "2026-10-06T19:55:12.189689+00:00"
+    },
+    {
+      "axioma_id": "AX-DOC-003",
+      "dominio": "documentacion",
+      "condicion_expr": "mercancia['requiere_certificado_origen'] and not documentos['certificado_origen']",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "Falta certificado de origen requerido."
+      },
+      "descripcion": "Rechazar si faltan certificados de origen (cuando se requieren).",
+      "prioridad": 84,
+      "variables_requeridas": [
+        "documentos.certificado_origen",
+        "mercancia.requiere_certificado_origen"
+      ],
+      "fuente": "Política MERA — Requisitos documentales",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "documentacion",
+        "requisitos",
+        "tramites"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "documentacion\\requisitos.yaml",
+      "hash": "56aab95f511f9190",
+      "actualizado_en": "2026-10-06T19:55:12.189722+00:00"
+    },
+    {
+      "axioma_id": "AX-DOC-004",
+      "dominio": "documentacion",
+      "condicion_expr": "documentos['cantidad_facturada'] != documentos['cantidad_conocimiento']",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Cantidades no coinciden entre factura y conocimiento."
+      },
+      "descripcion": "Revisar si hay inconsistencias documentales.",
+      "prioridad": 72,
+      "variables_requeridas": [
+        "documentos.cantidad_conocimiento",
+        "documentos.cantidad_facturada"
+      ],
+      "fuente": "Política MERA — Requisitos documentales",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "documentacion",
+        "requisitos",
+        "tramites"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "documentacion\\requisitos.yaml",
+      "hash": "949b49b22410a108",
+      "actualizado_en": "2026-10-06T19:55:12.189753+00:00"
+    },
+    {
+      "axioma_id": "AX-DOC-005",
+      "dominio": "documentacion",
+      "condicion_expr": "documentos['dias_para_vencimiento'] < 7",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Documentos próximos a vencer."
+      },
+      "descripcion": "Revisar si los documentos están próximos a expirar.",
+      "prioridad": 50,
+      "variables_requeridas": [
+        "documentos.dias_para_vencimiento"
+      ],
+      "fuente": "Política MERA — Requisitos documentales",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "documentacion",
+        "requisitos",
+        "tramites"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "documentacion\\requisitos.yaml",
+      "hash": "fc622803746c97b3",
+      "actualizado_en": "2026-10-06T19:55:12.189785+00:00"
+    },
+    {
+      "axioma_id": "AX-DOC-006",
+      "dominio": "documentacion",
+      "condicion_expr": "documentos['factura_comercial'] and documentos['conocimiento_embarque'] and (not mercancia['requiere_certificado_origen'] or documentos['certificado_origen']) and documentos['cantidad_facturada'] == documentos['cantidad_conocimiento'] and documentos['dias_para_vencimiento'] >= 7",
+      "consecuencia": {
+        "estado": "APROBADO",
+        "motivo": "Documentación completa y consistente."
+      },
+      "descripcion": "Aprobar si la documentación es completa.",
+      "prioridad": 16,
+      "variables_requeridas": [
+        "documentos.cantidad_conocimiento",
+        "documentos.cantidad_facturada",
+        "documentos.certificado_origen",
+        "documentos.conocimiento_embarque",
+        "documentos.dias_para_vencimiento",
+        "documentos.factura_comercial",
+        "mercancia.requiere_certificado_origen"
+      ],
+      "fuente": "Política MERA — Requisitos documentales",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "documentacion",
+        "requisitos",
+        "tramites"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "documentacion\\requisitos.yaml",
+      "hash": "b453710df4bcb155",
+      "actualizado_en": "2026-10-06T19:55:12.189817+00:00"
+    },
+    {
+      "axioma_id": "AX-RIE-001",
+      "dominio": "riesgos",
+      "condicion_expr": "cliente['en_lista_negra_ofac'] or cliente['en_lista_negra_onu']",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "Cliente en lista negra de sanciones internacionales."
+      },
+      "descripcion": "Rechazar si cliente está en lista negra.",
+      "prioridad": 100,
+      "variables_requeridas": [
+        "cliente.en_lista_negra_ofac",
+        "cliente.en_lista_negra_onu"
+      ],
+      "fuente": "Política MERA — Evaluación de riesgos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "riesgos",
+        "evaluacion",
+        "compliance"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "riesgos\\evaluacion.yaml",
+      "hash": "96fd0496c034956f",
+      "actualizado_en": "2026-10-06T19:55:12.189849+00:00"
+    },
+    {
+      "axioma_id": "AX-RIE-002",
+      "dominio": "riesgos",
+      "condicion_expr": "ruta['destino_pais'] in ['Cuba', 'Iran', 'Corea del Norte']",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "Destino embargado por sanciones internacionales."
+      },
+      "descripcion": "Rechazar si país de destino está embargado.",
+      "prioridad": 99,
+      "variables_requeridas": [
+        "ruta.destino_pais"
+      ],
+      "fuente": "Política MERA — Evaluación de riesgos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "riesgos",
+        "evaluacion",
+        "compliance"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "riesgos\\evaluacion.yaml",
+      "hash": "f9e60d5bf9da2750",
+      "actualizado_en": "2026-10-06T19:55:12.189880+00:00"
+    },
+    {
+      "axioma_id": "AX-RIE-003",
+      "dominio": "riesgos",
+      "condicion_expr": "operacion['valor_total'] > 1000000",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Operación de monto muy elevado requiere revisión AML."
+      },
+      "descripcion": "Revisar si el monto es sospechosamente alto.",
+      "prioridad": 68,
+      "variables_requeridas": [
+        "operacion.valor_total"
+      ],
+      "fuente": "Política MERA — Evaluación de riesgos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "riesgos",
+        "evaluacion",
+        "compliance"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "riesgos\\evaluacion.yaml",
+      "hash": "8c2f4fdc00939e77",
+      "actualizado_en": "2026-10-06T19:55:12.189910+00:00"
+    },
+    {
+      "axioma_id": "AX-RIE-004",
+      "dominio": "riesgos",
+      "condicion_expr": "cliente['cambios_ruta_ultimos_30_dias'] > 5",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Patrón sospechoso de cambios de ruta."
+      },
+      "descripcion": "Revisar si hay actividad sospechosa de cliente.",
+      "prioridad": 62,
+      "variables_requeridas": [
+        "cliente.cambios_ruta_ultimos_30_dias"
+      ],
+      "fuente": "Política MERA — Evaluación de riesgos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "riesgos",
+        "evaluacion",
+        "compliance"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "riesgos\\evaluacion.yaml",
+      "hash": "64f28701cf9a8a16",
+      "actualizado_en": "2026-10-06T19:55:12.189939+00:00"
+    },
+    {
+      "axioma_id": "AX-RIE-005",
+      "dominio": "riesgos",
+      "condicion_expr": "cliente['numero_operaciones_previas'] == 0",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Cliente nuevo requiere verificación adicional."
+      },
+      "descripcion": "Revisar si es primera operación del cliente.",
+      "prioridad": 55,
+      "variables_requeridas": [
+        "cliente.numero_operaciones_previas"
+      ],
+      "fuente": "Política MERA — Evaluación de riesgos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "riesgos",
+        "evaluacion",
+        "compliance"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "riesgos\\evaluacion.yaml",
+      "hash": "996ec65b038165cc",
+      "actualizado_en": "2026-10-06T19:55:12.189969+00:00"
+    },
+    {
+      "axioma_id": "AX-RIE-006",
+      "dominio": "riesgos",
+      "condicion_expr": "not cliente['en_lista_negra_ofac'] and not cliente['en_lista_negra_onu'] and ruta['destino_pais'] not in ['Cuba', 'Iran', 'Corea del Norte'] and operacion['valor_total'] <= 1000000 and cliente['cambios_ruta_ultimos_30_dias'] <= 5",
+      "consecuencia": {
+        "estado": "APROBADO",
+        "motivo": "Evaluación de riesgo completada exitosamente."
+      },
+      "descripcion": "Aprobar si pasa evaluación de riesgos.",
+      "prioridad": 21,
+      "variables_requeridas": [
+        "cliente.cambios_ruta_ultimos_30_dias",
+        "cliente.en_lista_negra_ofac",
+        "cliente.en_lista_negra_onu",
+        "operacion.valor_total",
+        "ruta.destino_pais"
+      ],
+      "fuente": "Política MERA — Evaluación de riesgos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "riesgos",
+        "evaluacion",
+        "compliance"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "riesgos\\evaluacion.yaml",
+      "hash": "969a7d3921721ffd",
+      "actualizado_en": "2026-10-06T19:55:12.190001+00:00"
+    },
+    {
+      "axioma_id": "AX-MIT-001",
+      "dominio": "riesgos",
+      "condicion_expr": "riesgo['nivel_evaluado'] == 'alto' and not operacion['poliza_seguro_ampliada']",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Operación de alto riesgo requiere póliza de seguro ampliada."
+      },
+      "descripcion": "Exigir póliza de seguro ampliada para alto riesgo.",
+      "prioridad": 75,
+      "variables_requeridas": [
+        "operacion.poliza_seguro_ampliada",
+        "riesgo.nivel_evaluado"
+      ],
+      "fuente": "Política MERA — Mitigación de riesgos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "riesgos",
+        "mitigacion",
+        "control"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "riesgos\\mitigacion.yaml",
+      "hash": "59e052e5284caff9",
+      "actualizado_en": "2026-10-06T19:55:12.190033+00:00"
+    },
+    {
+      "axioma_id": "AX-MIT-002",
+      "dominio": "riesgos",
+      "condicion_expr": "riesgo['nivel_evaluado'] == 'medio' and not operacion['deposito_garantia']",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Depósito de garantía requerido para cliente de riesgo medio."
+      },
+      "descripcion": "Exigir depósito de garantía para cliente de riesgo medio.",
+      "prioridad": 65,
+      "variables_requeridas": [
+        "operacion.deposito_garantia",
+        "riesgo.nivel_evaluado"
+      ],
+      "fuente": "Política MERA — Mitigación de riesgos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "riesgos",
+        "mitigacion",
+        "control"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "riesgos\\mitigacion.yaml",
+      "hash": "232723f27c921bd6",
+      "actualizado_en": "2026-10-06T19:55:12.190064+00:00"
+    },
+    {
+      "axioma_id": "AX-MIT-003",
+      "dominio": "riesgos",
+      "condicion_expr": "ruta['cruza_frontera'] and not operacion['confirmacion_bancaria']",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Confirmación bancaria requerida para operación internacional."
+      },
+      "descripcion": "Requerir confirmación bancaria para operaciones internacionales.",
+      "prioridad": 70,
+      "variables_requeridas": [
+        "operacion.confirmacion_bancaria",
+        "ruta.cruza_frontera"
+      ],
+      "fuente": "Política MERA — Mitigación de riesgos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "riesgos",
+        "mitigacion",
+        "control"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "riesgos\\mitigacion.yaml",
+      "hash": "dbe4ccbbb47fa523",
+      "actualizado_en": "2026-10-06T19:55:12.190094+00:00"
+    },
+    {
+      "axioma_id": "AX-MIT-004",
+      "dominio": "riesgos",
+      "condicion_expr": "(riesgo['nivel_evaluado'] != 'alto' or operacion['poliza_seguro_ampliada']) and (riesgo['nivel_evaluado'] != 'medio' or operacion['deposito_garantia']) and (not ruta['cruza_frontera'] or operacion['confirmacion_bancaria'])",
+      "consecuencia": {
+        "estado": "APROBADO",
+        "motivo": "Medidas de mitigación completadas."
+      },
+      "descripcion": "Aprobar después de mitigación de riesgos.",
+      "prioridad": 19,
+      "variables_requeridas": [
+        "operacion.confirmacion_bancaria",
+        "operacion.deposito_garantia",
+        "operacion.poliza_seguro_ampliada",
+        "riesgo.nivel_evaluado",
+        "ruta.cruza_frontera"
+      ],
+      "fuente": "Política MERA — Mitigación de riesgos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "riesgos",
+        "mitigacion",
+        "control"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "riesgos\\mitigacion.yaml",
+      "hash": "9d48eb1d8ae92a9e",
+      "actualizado_en": "2026-10-06T19:55:12.190126+00:00"
+    },
+    {
+      "axioma_id": "AX-HOR-001",
+      "dominio": "transporte",
+      "condicion_expr": "(operacion['hora_salida'] >= 20 or operacion['hora_salida'] <= 6) and ruta['zona'] == 'urbana'",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "Restricción nocturna en zonas urbanas."
+      },
+      "descripcion": "Rechazar despacho nocturno en zona urbana.",
+      "prioridad": 75,
+      "variables_requeridas": [
+        "operacion.hora_salida",
+        "ruta.zona"
+      ],
+      "fuente": "Política MERA — Restricciones horarias",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "horarios",
+        "tiempo"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\horarios.yaml",
+      "hash": "1e60b88b3465a5ac",
+      "actualizado_en": "2026-10-06T19:55:12.190318+00:00"
+    },
+    {
+      "axioma_id": "AX-HOR-002",
+      "dominio": "transporte",
+      "condicion_expr": "mercancia['es_peligrosa'] and operacion['dia_semana'] in ['sabado', 'domingo']",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "No se permite despacho de mercancía peligrosa los fines de semana."
+      },
+      "descripcion": "Rechazar despacho en fin de semana de mercancía peligrosa.",
+      "prioridad": 80,
+      "variables_requeridas": [
+        "mercancia.es_peligrosa",
+        "operacion.dia_semana"
+      ],
+      "fuente": "Política MERA — Restricciones horarias",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "horarios",
+        "tiempo"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\horarios.yaml",
+      "hash": "55e2a71ea4a1c232",
+      "actualizado_en": "2026-10-06T19:55:12.190349+00:00"
+    },
+    {
+      "axioma_id": "AX-HOR-003",
+      "dominio": "transporte",
+      "condicion_expr": "operacion['tiempo_transito_estimado_horas'] > 48",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Tiempo de tránsito muy elevado requiere revisión."
+      },
+      "descripcion": "Revisar si el tiempo de tránsito excede lo permitido.",
+      "prioridad": 55,
+      "variables_requeridas": [
+        "operacion.tiempo_transito_estimado_horas"
+      ],
+      "fuente": "Política MERA — Restricciones horarias",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "horarios",
+        "tiempo"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\horarios.yaml",
+      "hash": "8edd3465f7714d99",
+      "actualizado_en": "2026-10-06T19:55:12.190379+00:00"
+    },
+    {
+      "axioma_id": "AX-HOR-004",
+      "dominio": "transporte",
+      "condicion_expr": "not ((operacion['hora_salida'] >= 20 or operacion['hora_salida'] <= 6) and ruta['zona'] == 'urbana') and (not mercancia['es_peligrosa'] or operacion['dia_semana'] not in ['sabado', 'domingo']) and operacion['tiempo_transito_estimado_horas'] <= 48",
+      "consecuencia": {
+        "estado": "APROBADO",
+        "motivo": "Horario de despacho permitido."
+      },
+      "descripcion": "Aprobar si cumple restricciones horarias.",
+      "prioridad": 12,
+      "variables_requeridas": [
+        "mercancia.es_peligrosa",
+        "operacion.dia_semana",
+        "operacion.hora_salida",
+        "operacion.tiempo_transito_estimado_horas",
+        "ruta.zona"
+      ],
+      "fuente": "Política MERA — Restricciones horarias",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "horarios",
+        "tiempo"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\horarios.yaml",
+      "hash": "b43a551da5d976eb",
+      "actualizado_en": "2026-10-06T19:55:12.190411+00:00"
+    },
+    {
+      "axioma_id": "AX-RUT-001",
+      "dominio": "transporte",
+      "condicion_expr": "ruta['destino_pais'] in ['Yemen', 'Corea del Norte', 'Siria', 'Iran']",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "Destino en zona de sanciones internacionales."
+      },
+      "descripcion": "Rechazar si el destino está en zona prohibida.",
+      "prioridad": 94,
+      "variables_requeridas": [
+        "ruta.destino_pais"
+      ],
+      "fuente": "Política MERA — Rutas y destinos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "rutas",
+        "geografico"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\rutas.yaml",
+      "hash": "6c508f200a3a8122",
+      "actualizado_en": "2026-10-06T19:55:12.190442+00:00"
+    },
+    {
+      "axioma_id": "AX-RUT-002",
+      "dominio": "transporte",
+      "condicion_expr": "ruta['cruza_frontera'] and not documentos['permiso_fronterizo']",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "Ruta internacional requiere permiso de frontera."
+      },
+      "descripcion": "Rechazar si la ruta cruza frontera sin permisos.",
+      "prioridad": 90,
+      "variables_requeridas": [
+        "documentos.permiso_fronterizo",
+        "ruta.cruza_frontera"
+      ],
+      "fuente": "Política MERA — Rutas y destinos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "rutas",
+        "geografico"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\rutas.yaml",
+      "hash": "222199df02570ecc",
+      "actualizado_en": "2026-10-06T19:55:12.190473+00:00"
+    },
+    {
+      "axioma_id": "AX-RUT-003",
+      "dominio": "transporte",
+      "condicion_expr": "ruta['nivel_riesgo_seguridad'] in ['medio', 'alto']",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Ruta en zona de riesgo requiere aprobación especial."
+      },
+      "descripcion": "Revisar si la ruta tiene riesgo de inseguridad.",
+      "prioridad": 65,
+      "variables_requeridas": [
+        "ruta.nivel_riesgo_seguridad"
+      ],
+      "fuente": "Política MERA — Rutas y destinos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "rutas",
+        "geografico"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\rutas.yaml",
+      "hash": "6274ba6d593f9796",
+      "actualizado_en": "2026-10-06T19:55:12.190504+00:00"
+    },
+    {
+      "axioma_id": "AX-RUT-004",
+      "dominio": "transporte",
+      "condicion_expr": "ruta['destino_pais'] not in ['Yemen', 'Corea del Norte', 'Siria', 'Iran'] and (not ruta['cruza_frontera'] or documentos['permiso_fronterizo']) and ruta['nivel_riesgo_seguridad'] not in ['medio', 'alto']",
+      "consecuencia": {
+        "estado": "APROBADO",
+        "motivo": "Ruta autorizada y segura."
+      },
+      "descripcion": "Aprobar si la ruta es segura y permitida.",
+      "prioridad": 15,
+      "variables_requeridas": [
+        "documentos.permiso_fronterizo",
+        "ruta.cruza_frontera",
+        "ruta.destino_pais",
+        "ruta.nivel_riesgo_seguridad"
+      ],
+      "fuente": "Política MERA — Rutas y destinos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "rutas",
+        "geografico"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\rutas.yaml",
+      "hash": "3c23b62dbee7dac0",
+      "actualizado_en": "2026-10-06T19:55:12.190535+00:00"
+    },
+    {
+      "axioma_id": "AX-VEH-001",
+      "dominio": "transporte",
+      "condicion_expr": "not transporte['inspeccion_tecnica_vigente']",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "Vehículo sin inspección técnica vigente."
+      },
+      "descripcion": "Rechazar vehículo sin inspección técnica vigente.",
+      "prioridad": 92,
+      "variables_requeridas": [
+        "transporte.inspeccion_tecnica_vigente"
+      ],
+      "fuente": "Política MERA — Certificación de vehículos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "vehiculos",
+        "mecanica"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\vehiculos.yaml",
+      "hash": "47ec33dd5af9b4fc",
+      "actualizado_en": "2026-10-06T19:55:12.190642+00:00"
+    },
+    {
+      "axioma_id": "AX-VEH-002",
+      "dominio": "transporte",
+      "condicion_expr": "mercancia['es_peligrosa'] and transporte['anos_antiguedad'] > 15",
+      "consecuencia": {
+        "estado": "RECHAZADO",
+        "motivo": "Vehículos antiguos no permitidos para carga peligrosa."
+      },
+      "descripcion": "Rechazar vehículo con más de 15 años para carga peligrosa.",
+      "prioridad": 88,
+      "variables_requeridas": [
+        "mercancia.es_peligrosa",
+        "transporte.anos_antiguedad"
+      ],
+      "fuente": "Política MERA — Certificación de vehículos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "vehiculos",
+        "mecanica"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\vehiculos.yaml",
+      "hash": "2a1b376fa16c5db7",
+      "actualizado_en": "2026-10-06T19:55:12.190673+00:00"
+    },
+    {
+      "axioma_id": "AX-VEH-003",
+      "dominio": "transporte",
+      "condicion_expr": "transporte['anos_antiguedad'] > 20",
+      "consecuencia": {
+        "estado": "REVISION_HUMANA",
+        "motivo": "Vehículo antiguo requiere aprobación adicional."
+      },
+      "descripcion": "Revisar si el vehículo es muy antiguo (>20 años).",
+      "prioridad": 58,
+      "variables_requeridas": [
+        "transporte.anos_antiguedad"
+      ],
+      "fuente": "Política MERA — Certificación de vehículos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "vehiculos",
+        "mecanica"
+      ],
+      "activo": true,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\vehiculos.yaml",
+      "hash": "8aa00833149177d3",
+      "actualizado_en": "2026-10-06T19:55:12.190704+00:00"
+    },
+    {
+      "axioma_id": "AX-VEH-004",
+      "dominio": "transporte",
+      "condicion_expr": "transporte['inspeccion_tecnica_vigente'] and (not mercancia['es_peligrosa'] or transporte['anos_antiguedad'] <= 15) and transporte['anos_antiguedad'] <= 20",
+      "consecuencia": {
+        "estado": "APROBADO",
+        "motivo": "Vehículo certificado y en condiciones."
+      },
+      "descripcion": "Aprobar vehículo certificado.",
+      "prioridad": 13,
+      "variables_requeridas": [
+        "mercancia.es_peligrosa",
+        "transporte.anos_antiguedad",
+        "transporte.inspeccion_tecnica_vigente"
+      ],
+      "fuente": "Política MERA — Certificación de vehículos",
+      "version": "1.0",
+      "vigencia_desde": null,
+      "vigencia_hasta": null,
+      "etiquetas": [
+        "vehiculos",
+        "mecanica"
+      ],
+      "activo": false,
+      "paises": [
+        "*"
+      ],
+      "estado_revision": "APROBADO",
+      "origen": "archivo",
+      "fuente_url": "",
+      "fuente_documento": "",
+      "fuente_referencia": "",
+      "fuente_fragmento": "",
+      "generado_por": "",
+      "revisado_por": "",
+      "revisado_en": null,
+      "motivo_revision": "",
+      "archivo_origen": "transporte\\vehiculos.yaml",
+      "hash": "9d1f7af800901b4a",
+      "actualizado_en": "2026-10-06T19:55:12.190736+00:00",
+      "desactivado_en": "2026-10-06T19:55:12.219717+00:00"
+    }
+  ]
+}

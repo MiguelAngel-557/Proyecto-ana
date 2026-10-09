@@ -1,0 +1,34 @@
+defaults:
+  dominio: aduanas
+  fuente: "Política MERA — Cálculo de aranceles"
+  version: "1.0"
+  etiquetas: [aranceles, impuestos, comercio]
+
+axiomas:
+  - axioma_id: AX-ARA-001
+    descripcion: "Aplicar arancel preferencial a países ALADI."
+    condicion_expr: "ruta['origen_pais'] in ['Argentina', 'Brasil', 'Paraguay', 'Uruguay', 'Bolivia', 'Colombia', 'Ecuador', 'Perú', 'Venezuela', 'Chile', 'Mexico']"
+    prioridad: 85
+    estado: APROBADO
+    motivo: "Arancel preferencial ALADI aplicado."
+
+  - axioma_id: AX-ARA-002
+    descripcion: "Rechazar si faltan datos para calcular arancel."
+    condicion_expr: "aduanas['valor_declarado'] == 0 or aduanas['codigo_armonizado'] == ''"
+    prioridad: 88
+    estado: RECHAZADO
+    motivo: "Información incompleta para cálculo arancelario."
+
+  - axioma_id: AX-ARA-003
+    descripcion: "Revisar si hay valor inconsistente (posible subdeclaración)."
+    condicion_expr: "aduanas['valor_declarado'] < aduanas['valor_referencia_minima'] * 0.8"
+    prioridad: 70
+    estado: REVISION_HUMANA
+    motivo: "Valor declarado sospechosamente bajo."
+
+  - axioma_id: AX-ARA-004
+    descripcion: "Aprobar cálculo de arancel."
+    condicion_expr: "aduanas['valor_declarado'] > 0 and aduanas['codigo_armonizado'] != '' and aduanas['valor_declarado'] >= aduanas['valor_referencia_minima'] * 0.8"
+    prioridad: 18
+    estado: APROBADO
+    motivo: "Cálculo arancelario completado."
