@@ -1,0 +1,33 @@
+defaults:
+  fuente: "Política MERA — Certificación de vehículos"
+  version: "1.0"
+  etiquetas: [vehiculos, mecanica]
+
+axiomas:
+  - axioma_id: AX-VEH-001
+    descripcion: "Rechazar vehículo sin inspección técnica vigente."
+    condicion_expr: "not transporte['inspeccion_tecnica_vigente']"
+    prioridad: 92
+    estado: RECHAZADO
+    motivo: "Vehículo sin inspección técnica vigente."
+
+  - axioma_id: AX-VEH-002
+    descripcion: "Rechazar vehículo con más de 15 años para carga peligrosa."
+    condicion_expr: "mercancia['es_peligrosa'] and transporte['anos_antiguedad'] > 15"
+    prioridad: 88
+    estado: RECHAZADO
+    motivo: "Vehículos antiguos no permitidos para carga peligrosa."
+
+  - axioma_id: AX-VEH-003
+    descripcion: "Revisar si el vehículo es muy antiguo (>20 años)."
+    condicion_expr: "transporte['anos_antiguedad'] > 20"
+    prioridad: 58
+    estado: REVISION_HUMANA
+    motivo: "Vehículo antiguo requiere aprobación adicional."
+
+  - axioma_id: AX-VEH-004
+    descripcion: "Aprobar vehículo certificado."
+    condicion_expr: "transporte['inspeccion_tecnica_vigente'] and (not mercancia['es_peligrosa'] or transporte['anos_antiguedad'] <= 15) and transporte['anos_antiguedad'] <= 20"
+    prioridad: 13
+    estado: APROBADO
+    motivo: "Vehículo certificado y en condiciones."

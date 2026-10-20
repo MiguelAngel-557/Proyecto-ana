@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: ana_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ana
+      POSTGRES_PASSWORD: ana_dev_password
+      POSTGRES_DB: ana_core
+    ports:
+      - "5432:5432"
+    volumes:
+      - ana_pgdata:/var/lib/postgresql/data
+
+volumes:
+  ana_pgdata:

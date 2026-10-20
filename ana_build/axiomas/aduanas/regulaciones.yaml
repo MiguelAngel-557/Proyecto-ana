@@ -1,0 +1,41 @@
+defaults:
+  dominio: aduanas
+  fuente: "Política MERA — Regulaciones aduanales"
+  version: "1.0"
+  etiquetas: [aduanas, regulacion, prohibicion]
+
+axiomas:
+  - axioma_id: AX-ADU-001
+    descripcion: "Rechazar productos prohibidos por ley."
+    condicion_expr: "mercancia['codigo_armonizado'] in ['2933', '2934', '2935'] or mercancia['tipo'] in ['explosivos', 'armas', 'drogas', 'sustancias_controladas']"
+    prioridad: 100
+    estado: RECHAZADO
+    motivo: "Producto prohibido por regulación aduanal."
+
+  - axioma_id: AX-ADU-002
+    descripcion: "Rechazar si el importador no está registrado."
+    condicion_expr: "not cliente['registro_aduanal_activo']"
+    prioridad: 95
+    estado: RECHAZADO
+    motivo: "Importador no tiene registro aduanal activo."
+
+  - axioma_id: AX-ADU-003
+    descripcion: "Revisar si el arancel excede 40%."
+    condicion_expr: "aduanas['arancel_porcentaje'] > 40"
+    prioridad: 60
+    estado: REVISION_HUMANA
+    motivo: "Arancel elevado requiere revisión adicional."
+
+  - axioma_id: AX-ADU-004
+    descripcion: "Revisar si hay antecedentes de incumplimiento."
+    condicion_expr: "cliente['sanciones_aduanales'] > 0"
+    prioridad: 65
+    estado: REVISION_HUMANA
+    motivo: "Cliente tiene antecedentes de incumplimiento aduanal."
+
+  - axioma_id: AX-ADU-005
+    descripcion: "Aprobar importación regulada."
+    condicion_expr: "cliente['registro_aduanal_activo'] and mercancia['codigo_armonizado'] not in ['2933', '2934', '2935'] and mercancia['tipo'] not in ['explosivos', 'armas', 'drogas', 'sustancias_controladas'] and aduanas['arancel_porcentaje'] <= 40 and cliente['sanciones_aduanales'] == 0"
+    prioridad: 20
+    estado: APROBADO
+    motivo: "Importación autorizada."

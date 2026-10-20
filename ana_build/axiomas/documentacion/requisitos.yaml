@@ -1,0 +1,48 @@
+defaults:
+  dominio: documentacion
+  fuente: "Política MERA — Requisitos documentales"
+  version: "1.0"
+  etiquetas: [documentacion, requisitos, tramites]
+
+axiomas:
+  - axioma_id: AX-DOC-001
+    descripcion: "Rechazar si falta factura comercial."
+    condicion_expr: "not documentos['factura_comercial']"
+    prioridad: 90
+    estado: RECHAZADO
+    motivo: "Falta factura comercial."
+
+  - axioma_id: AX-DOC-002
+    descripcion: "Rechazar si falta conocimiento de embarque."
+    condicion_expr: "not documentos['conocimiento_embarque']"
+    prioridad: 87
+    estado: RECHAZADO
+    motivo: "Falta conocimiento de embarque."
+
+  - axioma_id: AX-DOC-003
+    descripcion: "Rechazar si faltan certificados de origen (cuando se requieren)."
+    condicion_expr: "mercancia['requiere_certificado_origen'] and not documentos['certificado_origen']"
+    prioridad: 84
+    estado: RECHAZADO
+    motivo: "Falta certificado de origen requerido."
+
+  - axioma_id: AX-DOC-004
+    descripcion: "Revisar si hay inconsistencias documentales."
+    condicion_expr: "documentos['cantidad_facturada'] != documentos['cantidad_conocimiento']"
+    prioridad: 72
+    estado: REVISION_HUMANA
+    motivo: "Cantidades no coinciden entre factura y conocimiento."
+
+  - axioma_id: AX-DOC-005
+    descripcion: "Revisar si los documentos están próximos a expirar."
+    condicion_expr: "documentos['dias_para_vencimiento'] < 7"
+    prioridad: 50
+    estado: REVISION_HUMANA
+    motivo: "Documentos próximos a vencer."
+
+  - axioma_id: AX-DOC-006
+    descripcion: "Aprobar si la documentación es completa."
+    condicion_expr: "documentos['factura_comercial'] and documentos['conocimiento_embarque'] and (not mercancia['requiere_certificado_origen'] or documentos['certificado_origen']) and documentos['cantidad_facturada'] == documentos['cantidad_conocimiento'] and documentos['dias_para_vencimiento'] >= 7"
+    prioridad: 16
+    estado: APROBADO
+    motivo: "Documentación completa y consistente."

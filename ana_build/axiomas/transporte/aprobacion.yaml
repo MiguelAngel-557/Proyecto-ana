@@ -1,0 +1,17 @@
+defaults:
+  fuente: "Política MERA — Despacho"
+  version: "1.0"
+  etiquetas: [aprobacion]
+
+axiomas:
+  # Prioridad baja a propósito: sólo decide si ningún axioma más severo se activó.
+  - axioma_id: AX-OK-001
+    descripcion: "Aprobar el envío cuando se cumplen todas las restricciones."
+    condicion_expr: >-
+      not (mercancia['es_peligrosa'] and not transporte['hazmat'])
+      and mercancia['peso_kg'] <= transporte['capacidad_max_kg']
+      and ruta['distancia_km'] <= transporte['autonomia_km']
+      and (transporte['peso_vacio_ton'] + mercancia['peso_kg'] / 1000.0) <= ruta['peso_max_permitido_ton']
+    prioridad: 10
+    estado: APROBADO
+    motivo: "Envío validado bajo todos los axiomas de transporte vigentes."

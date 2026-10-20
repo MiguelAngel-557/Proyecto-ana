@@ -1,0 +1,33 @@
+defaults:
+  fuente: "Política MERA — Rutas y destinos"
+  version: "1.0"
+  etiquetas: [rutas, geografico]
+
+axiomas:
+  - axioma_id: AX-RUT-001
+    descripcion: "Rechazar si el destino está en zona prohibida."
+    condicion_expr: "ruta['destino_pais'] in ['Yemen', 'Corea del Norte', 'Siria', 'Iran']"
+    prioridad: 94
+    estado: RECHAZADO
+    motivo: "Destino en zona de sanciones internacionales."
+
+  - axioma_id: AX-RUT-002
+    descripcion: "Rechazar si la ruta cruza frontera sin permisos."
+    condicion_expr: "ruta['cruza_frontera'] and not documentos['permiso_fronterizo']"
+    prioridad: 90
+    estado: RECHAZADO
+    motivo: "Ruta internacional requiere permiso de frontera."
+
+  - axioma_id: AX-RUT-003
+    descripcion: "Revisar si la ruta tiene riesgo de inseguridad."
+    condicion_expr: "ruta['nivel_riesgo_seguridad'] in ['medio', 'alto']"
+    prioridad: 65
+    estado: REVISION_HUMANA
+    motivo: "Ruta en zona de riesgo requiere aprobación especial."
+
+  - axioma_id: AX-RUT-004
+    descripcion: "Aprobar si la ruta es segura y permitida."
+    condicion_expr: "ruta['destino_pais'] not in ['Yemen', 'Corea del Norte', 'Siria', 'Iran'] and (not ruta['cruza_frontera'] or documentos['permiso_fronterizo']) and ruta['nivel_riesgo_seguridad'] not in ['medio', 'alto']"
+    prioridad: 15
+    estado: APROBADO
+    motivo: "Ruta autorizada y segura."

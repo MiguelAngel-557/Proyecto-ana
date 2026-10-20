@@ -1,0 +1,33 @@
+defaults:
+  fuente: "Norma NOM-012-SCT-2-2017 / capacidades de flota"
+  version: "1.0"
+  etiquetas: [capacidad, infraestructura]
+
+axiomas:
+  - axioma_id: AX-PES-001
+    descripcion: "Rechazar si el peso de la carga excede la capacidad del vehículo."
+    condicion_expr: "mercancia['peso_kg'] > transporte['capacidad_max_kg']"
+    prioridad: 90
+    estado: RECHAZADO
+    motivo: "Exceso de peso sobre la capacidad del vehículo."
+
+  - axioma_id: AX-INF-001
+    descripcion: "Rechazar si el peso bruto excede el límite de la infraestructura."
+    condicion_expr: "(transporte['peso_vacio_ton'] + mercancia['peso_kg'] / 1000.0) > ruta['peso_max_permitido_ton']"
+    prioridad: 85
+    estado: RECHAZADO
+    motivo: "El peso bruto combinado excede el límite de la ruta."
+
+  - axioma_id: AX-AUT-001
+    descripcion: "Rechazar si la distancia supera la autonomía sin recarga."
+    condicion_expr: "ruta['distancia_km'] > transporte['autonomia_km']"
+    prioridad: 80
+    estado: RECHAZADO
+    motivo: "La distancia de la ruta excede la autonomía del vehículo."
+
+  - axioma_id: AX-AUT-002
+    descripcion: "Margen de autonomía por debajo del 10%: revisión humana."
+    condicion_expr: "ruta['distancia_km'] <= transporte['autonomia_km'] and ruta['distancia_km'] > transporte['autonomia_km'] * 0.9"
+    prioridad: 40
+    estado: REVISION_HUMANA
+    motivo: "Margen de autonomía insuficiente para imprevistos."

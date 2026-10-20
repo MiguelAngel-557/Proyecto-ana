@@ -1,0 +1,33 @@
+defaults:
+  fuente: "Política MERA — Restricciones horarias"
+  version: "1.0"
+  etiquetas: [horarios, tiempo]
+
+axiomas:
+  - axioma_id: AX-HOR-001
+    descripcion: "Rechazar despacho nocturno en zona urbana."
+    condicion_expr: "(operacion['hora_salida'] >= 20 or operacion['hora_salida'] <= 6) and ruta['zona'] == 'urbana'"
+    prioridad: 75
+    estado: RECHAZADO
+    motivo: "Restricción nocturna en zonas urbanas."
+
+  - axioma_id: AX-HOR-002
+    descripcion: "Rechazar despacho en fin de semana de mercancía peligrosa."
+    condicion_expr: "mercancia['es_peligrosa'] and operacion['dia_semana'] in ['sabado', 'domingo']"
+    prioridad: 80
+    estado: RECHAZADO
+    motivo: "No se permite despacho de mercancía peligrosa los fines de semana."
+
+  - axioma_id: AX-HOR-003
+    descripcion: "Revisar si el tiempo de tránsito excede lo permitido."
+    condicion_expr: "operacion['tiempo_transito_estimado_horas'] > 48"
+    prioridad: 55
+    estado: REVISION_HUMANA
+    motivo: "Tiempo de tránsito muy elevado requiere revisión."
+
+  - axioma_id: AX-HOR-004
+    descripcion: "Aprobar si cumple restricciones horarias."
+    condicion_expr: "not ((operacion['hora_salida'] >= 20 or operacion['hora_salida'] <= 6) and ruta['zona'] == 'urbana') and (not mercancia['es_peligrosa'] or operacion['dia_semana'] not in ['sabado', 'domingo']) and operacion['tiempo_transito_estimado_horas'] <= 48"
+    prioridad: 12
+    estado: APROBADO
+    motivo: "Horario de despacho permitido."

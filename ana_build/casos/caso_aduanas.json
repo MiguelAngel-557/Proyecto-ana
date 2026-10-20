@@ -1,0 +1,21 @@
+
+{
+  "cliente": {
+    "registro_aduanal_activo": true,
+    "sanciones_aduanales": 0
+  },
+  "mercancia": {
+    "codigo_armonizado": "6204",
+    "tipo": "textiles",
+    "es_peligrosa": false
+  },
+  "aduanas": {
+    "arancel_porcentaje": 15,
+    "valor_declarado": 50000,
+    "valor_referencia_minima": 40000,
+    "codigo_armonizado": "6204"
+  },
+  "ruta": {
+    "origen_pais": "China"
+  }
+}

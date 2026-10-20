@@ -1,0 +1,34 @@
+defaults:
+  dominio: riesgos
+  fuente: "Política MERA — Mitigación de riesgos"
+  version: "1.0"
+  etiquetas: [riesgos, mitigacion, control]
+
+axiomas:
+  - axioma_id: AX-MIT-001
+    descripcion: "Exigir póliza de seguro ampliada para alto riesgo."
+    condicion_expr: "riesgo['nivel_evaluado'] == 'alto' and not operacion['poliza_seguro_ampliada']"
+    prioridad: 75
+    estado: REVISION_HUMANA
+    motivo: "Operación de alto riesgo requiere póliza de seguro ampliada."
+
+  - axioma_id: AX-MIT-002
+    descripcion: "Exigir depósito de garantía para cliente de riesgo medio."
+    condicion_expr: "riesgo['nivel_evaluado'] == 'medio' and not operacion['deposito_garantia']"
+    prioridad: 65
+    estado: REVISION_HUMANA
+    motivo: "Depósito de garantía requerido para cliente de riesgo medio."
+
+  - axioma_id: AX-MIT-003
+    descripcion: "Requerir confirmación bancaria para operaciones internacionales."
+    condicion_expr: "ruta['cruza_frontera'] and not operacion['confirmacion_bancaria']"
+    prioridad: 70
+    estado: REVISION_HUMANA
+    motivo: "Confirmación bancaria requerida para operación internacional."
+
+  - axioma_id: AX-MIT-004
+    descripcion: "Aprobar después de mitigación de riesgos."
+    condicion_expr: "(riesgo['nivel_evaluado'] != 'alto' or operacion['poliza_seguro_ampliada']) and (riesgo['nivel_evaluado'] != 'medio' or operacion['deposito_garantia']) and (not ruta['cruza_frontera'] or operacion['confirmacion_bancaria'])"
+    prioridad: 19
+    estado: APROBADO
+    motivo: "Medidas de mitigación completadas."

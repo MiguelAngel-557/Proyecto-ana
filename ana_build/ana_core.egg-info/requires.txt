@@ -1,0 +1,14 @@
+pyyaml>=6.0
+fastapi>=0.115
+uvicorn>=0.30
+pydantic>=2.8
+duckdb>=0.10
+
+[dev]
+pytest>=8.0
+
+[neo4j]
+neo4j>=5.20
+
+[postgres]
+psycopg2-binary>=2.9

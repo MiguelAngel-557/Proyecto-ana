@@ -1,0 +1,48 @@
+defaults:
+  dominio: riesgos
+  fuente: "Política MERA — Evaluación de riesgos"
+  version: "1.0"
+  etiquetas: [riesgos, evaluacion, compliance]
+
+axiomas:
+  - axioma_id: AX-RIE-001
+    descripcion: "Rechazar si cliente está en lista negra."
+    condicion_expr: "cliente['en_lista_negra_ofac'] or cliente['en_lista_negra_onu']"
+    prioridad: 100
+    estado: RECHAZADO
+    motivo: "Cliente en lista negra de sanciones internacionales."
+
+  - axioma_id: AX-RIE-002
+    descripcion: "Rechazar si país de destino está embargado."
+    condicion_expr: "ruta['destino_pais'] in ['Cuba', 'Iran', 'Corea del Norte']"
+    prioridad: 99
+    estado: RECHAZADO
+    motivo: "Destino embargado por sanciones internacionales."
+
+  - axioma_id: AX-RIE-003
+    descripcion: "Revisar si el monto es sospechosamente alto."
+    condicion_expr: "operacion['valor_total'] > 1000000"
+    prioridad: 68
+    estado: REVISION_HUMANA
+    motivo: "Operación de monto muy elevado requiere revisión AML."
+
+  - axioma_id: AX-RIE-004
+    descripcion: "Revisar si hay actividad sospechosa de cliente."
+    condicion_expr: "cliente['cambios_ruta_ultimos_30_dias'] > 5"
+    prioridad: 62
+    estado: REVISION_HUMANA
+    motivo: "Patrón sospechoso de cambios de ruta."
+
+  - axioma_id: AX-RIE-005
+    descripcion: "Revisar si es primera operación del cliente."
+    condicion_expr: "cliente['numero_operaciones_previas'] == 0"
+    prioridad: 55
+    estado: REVISION_HUMANA
+    motivo: "Cliente nuevo requiere verificación adicional."
+
+  - axioma_id: AX-RIE-006
+    descripcion: "Aprobar si pasa evaluación de riesgos."
+    condicion_expr: "not cliente['en_lista_negra_ofac'] and not cliente['en_lista_negra_onu'] and ruta['destino_pais'] not in ['Cuba', 'Iran', 'Corea del Norte'] and operacion['valor_total'] <= 1000000 and cliente['cambios_ruta_ultimos_30_dias'] <= 5"
+    prioridad: 21
+    estado: APROBADO
+    motivo: "Evaluación de riesgo completada exitosamente."
