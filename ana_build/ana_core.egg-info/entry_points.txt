@@ -1,2 +1,0 @@
-[console_scripts]
-ana = ana.cli:main
